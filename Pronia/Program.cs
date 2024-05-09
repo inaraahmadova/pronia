@@ -1,3 +1,5 @@
+using Pronia.DataAccesLayer;
+
 namespace Pronia
 {
     public class Program
@@ -6,8 +8,13 @@ namespace Pronia
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ProniaContext>();
             var app = builder.Build();
             app.UseStaticFiles();
+            app.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+          );
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=index}"
